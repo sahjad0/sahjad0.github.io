@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Diploma Notes Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial;
+      background:#f5f7fb;
+    }
+
+    .header{
+      background:#1e88e5;
+      color:white;
+      padding:15px;
+      text-align:center;
+    }
+
+    .container{
+      padding:20px;
+      text-align:center;
+    }
+
+    .card{
+      display:inline-block;
+      background:white;
+      padding:15px 20px;
+      margin:10px;
+      border-radius:10px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      cursor:pointer;
+      min-width:120px;
+      transition:0.2s;
+    }
+
+    .card:hover{
+      transform:scale(1.05);
+    }
+
+    iframe{
+      width:95%;
+      height:600px;
+      border:1px solid #ccc;
+      border-radius:10px;
+    }
+
+    .back{
+      margin-top:15px;
+      padding:10px 20px;
+      border:none;
+      background:#444;
+      color:white;
+      border-radius:5px;
+      cursor:pointer;
+    }
+
+    h2,h3{ margin:10px 0; }
+  </style>
+</head>
+
+<body>
+
+<div class="header">
+  <h2>Diploma Notes Portal</h2>
+</div>
+
+<!-- HOME -->
+<div id="home" class="container">
+  <h3>Select Course</h3>
+
+  <div class="card" onclick="openCourse('DEEX')">DEEX</div>
+  <div class="card" onclick="openCourse('DEE')">DEE</div>
+</div>
+
+<!-- SEMESTERS -->
+<div id="semPage" class="container" style="display:none;">
+  <h3 id="courseTitle"></h3>
+
+  <div id="semList"></div>
+
+  <button class="back" onclick="goHome()">⬅ Back</button>
+</div>
+
+<!-- SUBJECTS -->
+<div id="subPage" class="container" style="display:none;">
+  <h3 id="semTitle"></h3>
+
+  <div class="card" onclick="openPDF('Subject 1')">Subject 1</div>
+  <div class="card" onclick="openPDF('Subject 2')">Subject 2</div>
+
+  <br>
+  <button class="back" onclick="backToSem()">⬅ Back</button>
+</div>
+
+<!-- PDF VIEW -->
+<div id="pdfPage" class="container" style="display:none;">
+  <h3 id="pdfTitle"></h3>
+
+  <iframe id="pdfFrame"></iframe>
+
+  <br>
+  <button class="back" onclick="backToSub()">⬅ Back</button>
+</div>
+
+<script>
+
+let course = "";
+let sem = "";
+
+// HOME → COURSE
+function openCourse(c){
+  course = c;
+
+  document.getElementById("home").style.display="none";
+  document.getElementById("semPage").style.display="block";
+
+  document.getElementById("courseTitle").innerText = c + " - Semesters";
+
+  let html="";
+  for(let i=1;i<=6;i++){
+    html += `<div class="card" onclick="openSem(${i})">Semester ${i}</div>`;
+  }
+
+  document.getElementById("semList").innerHTML = html;
+}
+
+// SEM → SUBJECT
+function openSem(s){
+  sem = s;
+
+  document.getElementById("semPage").style.display="none";
+  document.getElementById("subPage").style.display="block";
+
+  document.getElementById("semTitle").innerText =
+    course + " - Semester " + sem;
+}
+
+// SUBJECT → PDF
+function openPDF(subject){
+
+  document.getElementById("subPage").style.display="none";
+  document.getElementById("pdfPage").style.display="block";
+
+  document.getElementById("pdfTitle").innerText =
+    course + " - Sem " + sem + " - " + subject;
+
+  // 🔴 CHANGE THIS PER SUBJECT LATER
+  let pdfID = "147yEdTVkpsrdQ4MHARhdCn7V5na7AZfN";
+
+  document.getElementById("pdfFrame").src =
+    "https://drive.google.com/file/d/" + pdfID + "/preview";
+}
+
+// BACK SYSTEM
+function goHome(){
+  document.getElementById("home").style.display="block";
+  document.getElementById("semPage").style.display="none";
+}
+
+function backToSem(){
+  document.getElementById("semPage").style.display="block";
+  document.getElementById("subPage").style.display="none";
+}
+
+function backToSub(){
+  document.getElementById("subPage").style.display="block";
+  document.getElementById("pdfPage").style.display="none";
+}
+
+</script>
+
+</body>
+                     </html>
